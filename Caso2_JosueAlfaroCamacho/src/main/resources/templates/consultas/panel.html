@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- Panel de consultas -->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/base :: head('Consultas')}"></head>
+    <body>
+        <nav th:replace="~{general/base :: navbar}"></nav>
+
+        <div class="container mt-4">
+            <h3>🔍 Panel de Consultas</h3>
+            <p class="text-muted">Eventos activos en el sistema: <strong th:text="${totalActivos}"></strong></p>
+            <hr/>
+
+            <div class="row g-4">
+                <!-- Por estado -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-title">Por Estado</h6>
+                            <form th:action="@{/consultas/por-estado}" method="get">
+                                <select name="activo" class="form-select mb-2">
+                                    <option value="true">Activos</option>
+                                    <option value="false">Inactivos</option>
+                                </select>
+                                <button class="btn btn-dark btn-sm w-100">Buscar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Por rango de fechas -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-title">Por Rango de Fechas</h6>
+                            <form th:action="@{/consultas/por-fechas}" method="get">
+                                <input type="date" name="inicio" class="form-control mb-2" required/>
+                                <input type="date" name="fin" class="form-control mb-2" required/>
+                                <button class="btn btn-dark btn-sm w-100">Buscar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Por nombre -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-title">Por Nombre</h6>
+                            <form th:action="@{/consultas/por-nombre}" method="get">
+                                <input type="text" name="nombre" class="form-control mb-2" placeholder="Ej: Conferencia" required/>
+                                <button class="btn btn-dark btn-sm w-100">Buscar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuarios por rol -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-title">Usuarios por Rol</h6>
+                            <form th:action="@{/consultas/usuarios-por-rol}" method="get">
+                                <select name="rolId" class="form-select mb-2">
+                                    <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.nombre}"></option>
+                                </select>
+                                <button class="btn btn-dark btn-sm w-100">Buscar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${resultados}" class="mt-4">
+                <h5>Resultados de eventos</h5>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                        <tr><th>Nombre</th><th>Fecha</th><th>Capacidad</th><th>Estado</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ev : ${resultados}">
+                            <td th:text="${ev.nombre}"></td>
+                            <td th:text="${ev.fecha}"></td>
+                            <td th:text="${ev.capacidad}"></td>
+                            <td>
+                                <span class="badge" th:classappend="${ev.activo} ? 'bg-success' : 'bg-secondary'" th:text="${ev.activo} ? 'Activo' : 'Inactivo'"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${usuariosResultado}" class="mt-4">
+                <h5>Usuarios con rol: <span th:text="${rolSeleccionado}" class="text-primary"></span></h5>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                        <tr><th>Nombre</th><th>Email</th><th>Estado</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="usr : ${usuariosResultado}">
+                            <td th:text="${usr.nombre}"></td>
+                            <td th:text="${usr.email}"></td>
+                            <td>
+                                <span class="badge" th:classappend="${usr.activo} ? 'bg-success' : 'bg-secondary'" th:text="${usr.activo} ? 'Activo' : 'Inactivo'"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer th:replace="~{general/base :: footer}"></footer>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>

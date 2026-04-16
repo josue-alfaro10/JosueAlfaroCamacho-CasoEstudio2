@@ -1,2 +1,0 @@
-# JosueAlfaroCamacho-CasoEstudio2
-

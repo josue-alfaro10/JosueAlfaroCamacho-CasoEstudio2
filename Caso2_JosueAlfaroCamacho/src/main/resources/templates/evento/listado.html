@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="~{general/base :: head('Eventos')}"></head>
+    <body>
+        <nav th:replace="~{general/base :: navbar}"></nav>
+
+        <div class="container mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3> Gestión de Eventos</h3>
+                <a th:href="@{/evento/nuevo}" sec:authorize="hasAnyRole('ADMIN','ORGANIZADOR')"
+                   class="btn btn-dark">+ Nuevo Evento</a>
+            </div>
+
+            <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th><th>Nombre</th><th>Fecha</th>
+                        <th>Capacidad</th><th>Estado</th>
+                        <th sec:authorize="hasAnyRole('ADMIN','ORGANIZADOR')">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="ev : ${eventos}">
+                        <td th:text="${ev.id}"></td>
+                        <td th:text="${ev.nombre}"></td>
+                        <td th:text="${ev.fecha}"></td>
+                        <td th:text="${ev.capacidad}"></td>
+                        <td>
+                            <span class="badge" th:classappend="${ev.activo} ? 'bg-success' : 'bg-secondary'"
+                                  th:text="${ev.activo} ? 'Activo' : 'Inactivo'"></span>
+                        </td>
+                        <td sec:authorize="hasAnyRole('ADMIN','ORGANIZADOR')">
+                            <a th:href="@{/evento/editar/{id}(id=${ev.id})}" class="btn btn-sm btn-warning">Editar</a>
+                            <a th:href="@{/evento/eliminar/{id}(id=${ev.id})}" class="btn btn-sm btn-danger"
+                               onclick="return confirm('¿Eliminar este evento?')">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer th:replace="~{general/base :: footer}"></footer>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>

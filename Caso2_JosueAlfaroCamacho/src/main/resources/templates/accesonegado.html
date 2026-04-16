@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/base :: head('Acceso Denegado')}"></head>
+    <body>
+        <nav th:replace="~{general/base :: navbar}"></nav>
+        <div class="container mt-5 text-center">
+            <h1 class="display-3">403</h1>
+            <h4>No tienes permiso para acceder a esta sección.</h4>
+            <a th:href="@{/}" class="btn btn-dark mt-3">Volver al inicio</a>
+        </div>
+        <footer th:replace="~{general/base :: footer}"></footer>
+    </body>
+</html>

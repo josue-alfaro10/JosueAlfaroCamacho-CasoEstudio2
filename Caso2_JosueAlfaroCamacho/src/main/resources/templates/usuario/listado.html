@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/base :: head('Usuarios')}"></head>
+    <body>
+        <nav th:replace="~{general/base :: navbar}"></nav>
+
+        <div class="container mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3> Gestión de Usuarios</h3>
+                <a th:href="@{/usuario/nuevo}" class="btn btn-dark">+ Nuevo Usuario</a>
+            </div>
+
+            <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th><th>Nombre</th><th>Email</th>
+                        <th>Rol</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="usr : ${usuarios}">
+                        <td th:text="${usr.id}"></td>
+                        <td th:text="${usr.nombre}"></td>
+                        <td th:text="${usr.email}"></td>
+                        <td th:text="${usr.rol?.nombre}"></td>
+                        <td>
+                            <span class="badge" th:classappend="${usr.activo} ? 'bg-success' : 'bg-secondary'"
+                                  th:text="${usr.activo} ? 'Activo' : 'Inactivo'"></span>
+                        </td>
+                        <td>
+                            <a th:href="@{/usuario/detalle/{id}(id=${usr.id})}" class="btn btn-sm btn-info">Ver</a>
+                            <a th:href="@{/usuario/editar/{id}(id=${usr.id})}" class="btn btn-sm btn-warning">Editar</a>
+                            <a th:href="@{/usuario/eliminar/{id}(id=${usr.id})}" class="btn btn-sm btn-danger"
+                               onclick="return confirm('¿Eliminar usuario?')">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer th:replace="~{general/base :: footer}"></footer>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>

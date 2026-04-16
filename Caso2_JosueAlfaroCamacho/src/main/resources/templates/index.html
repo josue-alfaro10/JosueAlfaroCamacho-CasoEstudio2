@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="~{general/base :: head('Inicio')}"></head>
+    <body>
+        <nav th:replace="~{general/base :: navbar}"></nav>
+
+        <div class="container mt-4">
+            <div class="p-4 mb-4 bg-dark text-white rounded">
+                <h2>Plataforma de Reservas de Eventos</h2>
+                <p class="mb-1">Bienvenido al sistema de gestión de eventos.</p>
+                <span class="badge bg-success fs-6">Eventos activos: <span th:text="${totalActivos}"></span></span>
+            </div>
+
+            <h5 class="mb-3">Próximos Eventos</h5>
+            <div class="row">
+                <div class="col-md-4 mb-3" th:each="ev : ${eventos}">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${ev.nombre}"></h5>
+                            <p class="card-text text-muted" th:text="${ev.descripcion}"></p>
+                            <p><i class="fa fa-calendar"></i> <span th:text="${ev.fecha}"></span></p>
+                            <p>Capacidad: <strong th:text="${ev.capacidad}"></strong></p>
+                            <span class="badge" th:classappend="${ev.activo} ? 'bg-success' : 'bg-secondary'"
+                                  th:text="${ev.activo} ? 'Activo' : 'Inactivo'"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="~{general/base :: footer}"></footer>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/base :: head('Detalle Usuario')}"></head>
+    <body>
+        <nav th:replace="~{general/base :: navbar}"></nav>
+
+        <div class="container mt-4" style="max-width:500px">
+            <h3> Detalle del Usuario</h3>
+            <hr/>
+            <table class="table table-bordered">
+                <tr><th>ID</th><td th:text="${usuario.id}"></td></tr>
+                <tr><th>Nombre</th><td th:text="${usuario.nombre}"></td></tr>
+                <tr><th>Email</th><td th:text="${usuario.email}"></td></tr>
+                <tr><th>Rol</th><td th:text="${usuario.rol?.nombre}"></td></tr>
+                <tr><th>Estado</th>
+                    <td>
+                        <span class="badge" th:classappend="${usuario.activo} ? 'bg-success' : 'bg-secondary'"
+                              th:text="${usuario.activo} ? 'Activo' : 'Inactivo'"></span>
+                    </td>
+                </tr>
+                <tr><th>Creación</th><td th:text="${usuario.fechaCreacion}"></td></tr>
+            </table>
+            <a th:href="@{/usuario/listado}" class="btn btn-secondary">Volver</a>
+        </div>
+
+        <footer th:replace="~{general/base :: footer}"></footer>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>
